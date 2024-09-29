@@ -1,0 +1,91 @@
+// Select DOM elements
+const taskInput = document.getElementById('task-input');
+const addTaskBtn = document.getElementById('add-task-btn');
+const taskList = document.getElementById('task-list');
+
+// Add Task Event
+addTaskBtn.addEventListener('click', addTask);
+
+// Function to Add Task
+function addTask() {
+    const taskText = taskInput.value.trim();
+    if (taskText === '') {
+        alert('Please enter a task.');
+        return;
+    }
+
+    // Create task object
+    const task = {
+        text: taskText,
+        completed: false
+    };
+
+    // Add task to localStorage
+    addToLocalStorage(task);
+
+    // Clear input
+    taskInput.value = '';
+}
+
+// Function to add task to localStorage
+function addToLocalStorage(task) {
+    const tasks = getTasksFromLocalStorage();
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+}
+
+// Function to render tasks from localStorage
+function renderTasks() {
+    const tasks = getTasksFromLocalStorage();
+    taskList.innerHTML = ''; // Clear the task list
+    tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+
+        // Create span for task text
+        const span = document.createElement('span');
+        span.textContent = task.text;
+        if (task.completed) {
+            span.classList.add('completed'); // Add completed class if the task is completed
+        }
+        span.addEventListener('click', () => toggleComplete(index));
+
+        // Create delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', () => deleteTask(index));
+
+        // Append span and delete button to li
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+
+        // Append li to task list
+        taskList.appendChild(li);
+    });
+}
+
+// Function to Toggle Complete
+function toggleComplete(index) {
+    const tasks = getTasksFromLocalStorage();
+    tasks[index].completed = !tasks[index].completed; // Toggle the completed status
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks(); // Re-render the task list
+}
+
+// Function to Delete Task
+function deleteTask(index) {
+    const tasks = getTasksFromLocalStorage();
+    tasks.splice(index, 1); // Remove task from the array
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks(); // Re-render the task list
+}
+
+// Function to get tasks from localStorage
+function getTasksFromLocalStorage() {
+    const tasks = localStorage.getItem("tasks");
+    return tasks ? JSON.parse(tasks) : []; // Return parsed tasks or empty array
+}
+
+// Load tasks on page load
+window.onload = renderTasks;

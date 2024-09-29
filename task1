@@ -1,0 +1,57 @@
+#style.css
+
+.container {
+    width: 300px;
+    margin: 50px auto;
+    background: linear-gradient(135deg, #153677, #4e085f);
+    padding: 10px;   
+}
+
+h1 {
+    color: #ffffff;
+}
+
+#task-input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#add-task-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#task-list {
+    list-style-type: none;
+    font-size: 17px;
+    padding: 0;
+    user-select: none;
+}
+
+#task-list li {
+    background: #ffffff;
+    padding: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.delete-btn {
+    background: red;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
